@@ -5767,7 +5767,7 @@ dboolean M_Responder (event_t* ev)
           else if ((ch == key_menu_enter) ||
                (ch == key_menu_escape))
             {
-            (char *)(*(ptr1->m_var1)) = chat_string_buffer;
+            (char *)ptr1->m_var1 = chat_string_buffer;
             M_SelectDone(ptr1);         // phares 4/17/98
             }
 
@@ -5875,7 +5875,7 @@ dboolean M_Responder (event_t* ev)
         // and free old string's memory.
 
         free((char *)(*(ptr1->m_var1)));
-        (char *)(*(ptr1->m_var1)) = chat_string_buffer;
+        (char *)ptr1->m_var1 = chat_string_buffer;
         chat_index = 0; // current cursor position in chat_string_buffer
         }
 

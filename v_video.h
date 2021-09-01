@@ -172,9 +172,9 @@ typedef struct
 	dboolean   wide;
    }video_t;
 
-#define DEF_WIDTH     640
-#define DEF_HEIGHT    480
-#define DEF_COLORB     16
+#define DEF_WIDTH     1920
+#define DEF_HEIGHT    1080
+#define DEF_COLORB     32
 
 #define FOV_MAX   160.0f
 #define FOV_MIN   10.0f
