@@ -70,7 +70,6 @@ int			numlumps;
 
 void**			lumpcache;
 
-/* This is a redefinition of a standard 'C' function -- not necessary...
 int filelength (int handle) 
 { 
     struct stat	fileinfo;
@@ -80,7 +79,6 @@ int filelength (int handle)
 
     return fileinfo.st_size;
 }
-*/
 
 void
 ExtractFileBase
@@ -213,7 +211,7 @@ void W_AddFile (char *filename)
 	
     storehandle = reloadname ? -1 : handle;
 	
-    for (i=startlump ; (int)i<numlumps ; i++,lump_p++, fileinfo++)
+    for (i=startlump ; i<numlumps ; i++,lump_p++, fileinfo++)
     {
 	lump_p->handle = storehandle;
 	lump_p->position = LONG(fileinfo->filepos);
@@ -261,7 +259,7 @@ void W_Reload (void)
     lump_p = &lumpinfo[reloadlump];
 	
     for (i=reloadlump ;
-	 (int)i<reloadlump+lumpcount ;
+	 i<reloadlump+lumpcount ;
 	 i++,lump_p++, fileinfo++)
     {
 	if (lumpcache[i])
@@ -290,7 +288,7 @@ void W_Reload (void)
 //  does override all earlier ones.
 //
 void W_InitMultipleFiles (char** filenames)
-   {	
+{	
     int		size;
     
     // open all the files, load headers, and count lumps
@@ -313,7 +311,7 @@ void W_InitMultipleFiles (char** filenames)
 	I_Error ("Couldn't allocate lumpcache");
 
     memset (lumpcache,0, size);
-   }
+}
 
 
 
@@ -479,7 +477,7 @@ W_CacheLumpNum
 {
     byte*	ptr;
 
-    if ((unsigned)lump >= (unsigned)numlumps)
+    if ((unsigned)lump >= numlumps)
 	I_Error ("W_CacheLumpNum: %i >= numlumps",lump);
 		
     if (!lumpcache[lump])
@@ -509,13 +507,7 @@ W_CacheLumpName
 ( char*		name,
   int		tag )
 {
- int LumpNum;
-
- LumpNum = W_GetNumForName(name);
- if (LumpNum >= 0)
-    return W_CacheLumpNum(LumpNum, tag);
- else
-    return NULL;
+    return W_CacheLumpNum (W_GetNumForName(name), tag);
 }
 
 
