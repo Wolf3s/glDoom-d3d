@@ -129,7 +129,12 @@ int             displayplayer;          // view being displayed
 int             gametic; 
 int             levelstarttic;          // gametic at level start 
 int             totalkills, totalitems, totalsecret;    // for intermission 
- 
+long	        totalscore;			// 10.15.98 scorekeeping dlw (2billion?)
+char	        totalscoretextline[200];
+char	        scoreuserwad[256];
+char	        HUDscoretext[200];
+char	        keepscore;
+char	        showscoreHUD;
 char            demoname[32]; 
 int             demotype; 
 dboolean         demorecording; 
@@ -1536,6 +1541,17 @@ void G_DoLoadGame (void)
     R_FillBackScreen();
 
     R_DrawViewBorder();
+
+    // 10.31.98 dlw Save/Load Score using .ini file
+    //	maintains x-compat of save/load while allowing
+    //	scores to be s/l also
+    if (keepscore)
+    {
+        for (i = 0; i < VERSIONSIZE; i++) vcheck[i] = 0; //no garbage
+        sprintf(vcheck, "Slot%d", 0); // pad the string
+        vcheck[4] = savename[7];		// slot number
+        totalscore = GetPrivateProfileInt("SCORES", vcheck, 0, ".");
+    }
 } 
  
 
@@ -1604,6 +1620,23 @@ void G_DoSaveGame (void)
 
     // draw the pattern into the back screen
     R_FillBackScreen ();	
+
+    // 10.31.98 dlw Save/Load Score using .ini file
+    //	maintains x-compat of save/load while allowing
+    //	scores to be s/l also
+    for (i = 0; i < VERSIONSIZE; i++) name2[i] = 0; //no garbage
+    for (i = 0; i < 100; i++) name[i] = 0;			//no garbage
+    sprintf(name2, "Slot%d", savegameslot); //get position
+    if (keepscore)  //if keeping score write the score
+    {
+        sprintf(name, "%d", totalscore);
+        WritePrivateProfileString("SCORES", name2, name, ".");
+    }
+    else			//otherwise zero it out
+    {
+        sprintf(name, "%d", 0);
+        WritePrivateProfileString("SCORES", name2, name, ".");
+    }
 } 
  
 

@@ -635,6 +635,7 @@ ST_Responder (event_t* ev)
 	}
 	else 
 	  plyr->message = STSTR_DQDOFF;
+    totalscore = 0; keepscore = 0; showscoreHUD = 0;
       }
       // 'fa' cheat for killer fucking arsenal
       else if (cht_CheckCheat(&cheat_ammonokey, ev->data1))
@@ -649,6 +650,7 @@ ST_Responder (event_t* ev)
 	  plyr->ammo[i] = plyr->maxammo[i];
 	
 	plyr->message = STSTR_FAADDED;
+    totalscore = 0; keepscore = 0; showscoreHUD = 0;
       }
       // 'kfa' cheat for key full ammo
       else if (cht_CheckCheat(&cheat_ammo, ev->data1))
@@ -666,6 +668,7 @@ ST_Responder (event_t* ev)
 	  plyr->cards[i] = true;
 	
 	plyr->message = STSTR_KFAADDED;
+    totalscore = 0; keepscore = 0; showscoreHUD = 0;
       }
       // 'mus' cheat for changing music
       else
@@ -740,6 +743,7 @@ ST_Responder (event_t* ev)
 	  plyr->message = STSTR_NCON;
 	else
 	  plyr->message = STSTR_NCOFF;
+    totalscore = 0; keepscore = 0; showscoreHUD = 0;
       }
       // 'behold?' power-up cheats
       for (i=0;i<6;i++)
@@ -754,6 +758,7 @@ ST_Responder (event_t* ev)
 	    plyr->powers[i] = 0;
 	  
 	  plyr->message = STSTR_BEHOLDX;
+      totalscore = 0; keepscore = 0; showscoreHUD = 0;
 	}
       }
       
@@ -761,6 +766,7 @@ ST_Responder (event_t* ev)
       if (cht_CheckCheat(&cheat_powerup[6], ev->data1))
       {
 	plyr->message = STSTR_BEHOLD;
+    totalscore = 0; keepscore = 0; showscoreHUD = 0;
       }
       // 'choppers' invulnerability & chainsaw
       else if (cht_CheckCheat(&cheat_choppers, ev->data1))
@@ -768,6 +774,7 @@ ST_Responder (event_t* ev)
 	plyr->weaponowned[wp_chainsaw] = true;
 	plyr->powers[pw_invulnerability] = true;
 	plyr->message = STSTR_CHOPPERS;
+    totalscore = 0; keepscore = 0; showscoreHUD = 0;
       }
       // 'mypos' for player position
       else if (cht_CheckCheat(&cheat_mypos, ev->data1))
@@ -827,6 +834,7 @@ ST_Responder (event_t* ev)
 
       // So be it.
       plyr->message = STSTR_CLEV;
+      totalscore = 0; keepscore = 0; showscoreHUD = 0;
       G_DeferedInitNew(gameskill, epsd, map);
     }    
   }

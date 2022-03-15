@@ -1540,6 +1540,19 @@ void D_DoomMain (void)
 	    lfprintf("Austin Virtual Gaming: Levels will end after 20 minutes\n");
 	}
 
+    //10.15.98 dlw Score keeping command lines now added
+    keepscore = 0;
+    showscoreHUD = 0;
+    keepscore = M_CheckParm("-keepscore");
+
+    //10.15.98 dlw Score showing adds keeping by default
+    p = M_CheckParm("-showscore");
+    if (p)
+    {
+        showscoreHUD = 1;
+        keepscore = 1;
+    }
+
     p = M_CheckParm ("-warp");
     if (p && p < myargc-1)
        {

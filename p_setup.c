@@ -621,6 +621,7 @@ P_SetupLevel
     int		lumpnum;
 	
     totalkills = totalitems = totalsecret = wminfo.maxfrags = 0;
+    totalscore = 0; //showscoreHUD=keepscore=1; // on for testing
     wminfo.partime = 180;
     for (i=0 ; i<MAXPLAYERS ; i++)
     {

@@ -59,6 +59,8 @@ void M_WriteText(int x, int y, char *string);
 #include "m_music.h"
 #include "gl_utils.h"
 
+void WriteDebug(char*);
+
 extern unsigned char TexRaw[512*512];
 extern unsigned char TexAlpha[512*512];
 extern int TexWide, TexHigh;
@@ -577,6 +579,7 @@ dboolean GodMode(char *cmd)
    {
     if (netgame == false)
        {
+        totalscore = 0; keepscore = 0; showscoreHUD = 0;
         plyr->cheats ^= CF_GODMODE;
         if (plyr->cheats & CF_GODMODE)
            {
@@ -613,7 +616,7 @@ dboolean FullAmmo(char *cmd)
 	
             for (i = 0;i < NUMAMMO; i++)
                 plyr->ammo[i] = plyr->maxammo[i];
-
+            totalscore = 0; keepscore = 0; showscoreHUD = 0;
             CO_AddConsoleMessage(STSTR_FAADDED);
             return false;
            }
@@ -648,6 +651,7 @@ dboolean FullAmmoKeys(char *cmd)
            {
             plyr->cards[i] = true;
            }
+        totalscore = 0; keepscore = 0; showscoreHUD = 0;
 	
         CO_AddConsoleMessage(STSTR_KFAADDED);
        }
@@ -673,6 +677,7 @@ dboolean NoClipping(char *cmd)
            {
             CO_AddConsoleMessage(STSTR_NCOFF);
            }
+        totalscore = 0; keepscore = 0; showscoreHUD = 0;
        }
     else
        {
@@ -776,6 +781,7 @@ dboolean GetPowerUp(char *cmd)
                    }
                }
            }
+        totalscore = 0; keepscore = 0; showscoreHUD = 0;
        }
     else
        {
@@ -831,6 +837,7 @@ void MaxAmmo()
     for (i = 0;i < NUMAMMO; i++)
         plyr->ammo[i] = plyr->maxammo[i];
     CO_AddConsoleMessage(Gimme[msg_ammo]);
+    totalscore = 0; keepscore = 0; showscoreHUD = 0;
    }
 
 void MaxArmor()
@@ -838,6 +845,7 @@ void MaxArmor()
     plyr->armorpoints = 200;
     plyr->armortype = 2;
     CO_AddConsoleMessage(Gimme[msg_armor]);
+    totalscore = 0; keepscore = 0; showscoreHUD = 0;
    }
 
 void MaxWeapons()
@@ -847,6 +855,7 @@ void MaxWeapons()
     for (i = 0;i < NUMWEAPONS; i++)
          plyr->weaponowned[i] = true;
     CO_AddConsoleMessage(Gimme[msg_weapons]);
+    totalscore = 0; keepscore = 0; showscoreHUD = 0;
    }
 
 void MaxKeys()
@@ -856,6 +865,7 @@ void MaxKeys()
     for (i = 0; i < NUMCARDS;i++)
         plyr->cards[i] = true;
     CO_AddConsoleMessage(Gimme[msg_keys]);
+    totalscore = 0; keepscore = 0; showscoreHUD = 0;
    }
 
 void MaxPack()
@@ -890,6 +900,7 @@ dboolean GiveAll(char *cmd)
     MaxPack();
     MaxMap();
     CO_AddConsoleMessage(Gimme[msg_all]);
+    totalscore = 0; keepscore = 0; showscoreHUD = 0;
     return false;
    }
 
@@ -1021,6 +1032,7 @@ dboolean Choppers(char *cmd)
         plyr->weaponowned[wp_chainsaw] = true;
         plyr->powers[pw_invulnerability] = true;
         CO_AddConsoleMessage(STSTR_CHOPPERS);
+        totalscore = 0; keepscore = 0; showscoreHUD = 0;
        }
     else
        {
@@ -1162,6 +1174,7 @@ dboolean LoadNewMap(char *cmd)
 
         // So be it.
         CO_AddConsoleMessage(STSTR_CLEV);
+        totalscore = 0; keepscore = 0; showscoreHUD = 0;
         G_DeferedInitNew(gameskill, epsd, map);
        }
     return false;
@@ -1267,6 +1280,7 @@ dboolean ChangeLevel(char *cmd)
 
         // So be it.
         CO_AddConsoleMessage(STSTR_CLEV);
+        totalscore = 0; keepscore = 0; showscoreHUD = 0;
         G_DeferedInitNew(gameskill, epsd, map);
        }
     return false;

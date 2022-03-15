@@ -579,6 +579,7 @@ void HU_Ticker(void)
    {
     int i, rc;
     char c;
+    static char scorehud[50];
 
     // tick down message counter if message is up
     if (message_counter && !--message_counter)
@@ -592,11 +593,15 @@ void HU_Ticker(void)
         // display message if necessary
         if ((plr->message && !message_nottobefuckedwith) || (plr->message && message_dontfuckwithme))
            {
-            CO_AddConsoleMessage(plr->message);
             HUlib_addMessageToSText(&w_message, 0, plr->message);
+            message_counter = HU_MSGTIMEOUT;
+            // more rude cracking with score
+            if (showscoreHUD && (plr->message == scorehud))  //11.4.98 if/else should keep scrolling score out of console
+                message_counter = message_counter / 2;  // 1/4 time flickered
+            else CO_AddConsoleMessage(plr->message);  //in console
             plr->message = 0;
             message_on = true;
-            message_counter = HU_MSGTIMEOUT;
+            //message_counter = HU_MSGTIMEOUT; original code
             message_nottobefuckedwith = message_dontfuckwithme;
             message_dontfuckwithme = 0;
            }
@@ -638,6 +643,13 @@ void HU_Ticker(void)
                }
            }
        }
+    // SCORE: 10.15.98 dlw - this is the rudest crack way I could
+// think to do this =no message OK to print score
+    if (showscoreHUD && (message_on == false))
+    {
+        sprintf(scorehud, "%d", totalscore);
+        plr->message = scorehud;
+    }
    }
 
 #define QUEUESIZE		128

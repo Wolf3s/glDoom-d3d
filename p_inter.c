@@ -879,9 +879,37 @@ P_DamageMobj
 	
 	temp = damage < 100 ? damage : 100;
 
-	if (player == &players[consoleplayer])
-	    I_Tactile (40,10,40+temp*2);
+	if (player == &players[consoleplayer] && keepscore)
+		totalscore -= damage;
+		if (totalscore < 0)
+			totalscore = 0;
+		I_Tactile (40,10,40+temp*2);
     }
+
+	// scorekeeping function to figure out if player is responsible
+	// for someone elses damages
+	// this sound easy but (I think) a bug in my compiler
+	// kept crashing the program if I did player=source->player and
+	// then checking for NULL.  I tried about 200 ways of mixing
+	// this stoopid code so MSVC would stop writing me crashable stuff
+	if (source != NULL)
+	{
+		player = source->player;
+
+		if (keepscore)
+		{
+			if (player == &players[consoleplayer])
+				if (player != target->player) //don't reward for killing self with rockets
+					totalscore += damage;
+			if (totalscore < 0) totalscore = 0;
+			//if(showscoreHUD)  //need to get rid of this and put it in the real HUD
+			//{
+			//	sprintf(localscoretext, "%d", totalscore);
+			//	players[consoleplayer].message = localscoretext;
+			//}
+			//WriteDebug("Got Here 3\n");
+		}
+	}
     
     // do the damage	
     target->health -= damage;	

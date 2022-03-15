@@ -1875,6 +1875,15 @@ void WI_drawNetgameStats(void)
 
 }
 
+static void WriteDebug(char* Message)
+{
+    FILE* fn;
+
+    fn = fopen("glDoomScores.txt", "a+");
+    fprintf(fn, "%s", Message);
+    fclose(fn);
+}
+
 static int	sp_state;
 
 void WI_initStats(void)
@@ -1891,6 +1900,7 @@ void WI_initStats(void)
 
 void WI_updateStats(void)
 {
+    char scoretxt[256];
 
     WI_updateAnimatedBack();
 
@@ -1904,6 +1914,28 @@ void WI_updateStats(void)
 	cnt_par = wbs->partime / TICRATE;
 	S_StartSound(0, sfx_barexp);
 	sp_state = 10;
+    if (keepscore)
+    {
+        sprintf(scoretxt, "%s Score: %d (Playing ", totalscoretextline, totalscore);
+        switch (gameskill)
+        {
+        case 0: strcat(scoretxt, "BABY Skill Level)\n"); break;
+        case 1: strcat(scoretxt, "EASY Skill Level)\n"); break;
+        case 2: strcat(scoretxt, "MEDIUM Skill Level)\n"); break;
+        case 3: strcat(scoretxt, "HARD Skill Level)\n"); break;
+        case 4: strcat(scoretxt, "NIGHTMARE Skill Level)\n"); break;
+        }
+        WriteDebug(scoretxt);
+        sprintf(scoretxt, "%s Kills: %d%%\n", totalscoretextline, cnt_kills[0]);
+        WriteDebug(scoretxt);
+        sprintf(scoretxt, "%s Items: %d%%\n", totalscoretextline, cnt_items[0]);
+        WriteDebug(scoretxt);
+        sprintf(scoretxt, "%s Secrets: %d%%\n", totalscoretextline, cnt_secret[0]);
+        WriteDebug(scoretxt);
+        totalscore += (cnt_kills[0] + cnt_items[0] + cnt_secret[0]);
+        sprintf(scoretxt, "%s Final Score (score+percents): %d\n", totalscoretextline, totalscore);
+        WriteDebug(scoretxt);
+        }
     }
 
     if (sp_state == 2)
