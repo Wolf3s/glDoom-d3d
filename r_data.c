@@ -441,7 +441,7 @@ void R_InitTextures (void)
     int			temp1;
     int			temp2;
     int			temp3;
-
+    char        tstr[32];
     
     // Load the patch names from pnames.lmp.
     name[8] = 0;	
@@ -493,18 +493,18 @@ void R_InitTextures (void)
     temp1 = W_GetNumForName ("S_START");  // P_???????
     temp2 = W_GetNumForName ("S_END") - 1;
     temp3 = ((temp2-temp1+63)/64) + ((numtextures+63)/64);
-    printf("[");
-    for (i = 0; i < temp3; i++)
-	printf(" ");
-    printf("         ]");
-    for (i = 0; i < temp3; i++)
-	printf("\x8");
-    printf("\x8\x8\x8\x8\x8\x8\x8\x8\x8\x8");	
+    con_printf("[%*s ]", temp3, " ");
+    for (i = 0; i < (temp3 + 2); i++)
+    {
+        tstr[i] = '\x8';
+    }
+    tstr[i] = '\0';
+    con_printf(tstr);
 	
     for (i=0; i<numtextures ; i++, directory++)
     {
         if (!(i&63))
-            printf (".");
+            con_printf(".");
 
         if (i == numtextures1)
         {
