@@ -434,15 +434,21 @@
     <None Include="Playpal.bin" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="controls.txt" />
-    <Text Include="doomflaw.txt" />
-    <Text Include="doomnet.txt" />
-    <Text Include="newlumps.txt" />
-    <Text Include="relnotes_94e.txt" />
-    <Text Include="TodoList.txt" />
+    <Image Include="glDoom.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="glDoom.ico" />
+    <Text Include="docs\changelog.txt" />
+    <Text Include="docs\controls.txt" />
+    <Text Include="docs\doomflaw.txt" />
+    <Text Include="docs\DOOMLIC.TXT" />
+    <Text Include="docs\newlumps.txt" />
+    <Text Include="docs\readme.bal.txt" />
+    <Text Include="docs\readme.bill.txt" />
+    <Text Include="docs\readme.dos.txt" />
+    <Text Include="docs\readme.matrox.txt" />
+    <Text Include="docs\relnotes_94d.txt" />
+    <Text Include="docs\relnotes_94e.txt" />
+    <Text Include="docs\TodoList.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

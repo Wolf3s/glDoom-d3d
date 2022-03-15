@@ -54,9 +54,9 @@ void main(int argc, char *argv[])
     strcpy(wadname, str);
     strcat(wadname, ".wad");
 
-    wadfile = open(wadname, O_RDWR | O_CREAT | O_TRUNC | O_BINARY, 666);
+    wadfile = _open(wadname, O_RDWR | O_CREAT | O_TRUNC | O_BINARY, 666);
     wadhead.offset = sizeof(wadhead_t);
-    write(wadfile, &wadhead, sizeof(wadhead_t));
+    _write(wadfile, &wadhead, sizeof(wadhead_t));
     while (fgets(readline, 256, namelist ) != NULL)
        {
         if (strlen(readline) == 0)
@@ -83,7 +83,7 @@ void main(int argc, char *argv[])
             str[i] = '\0';
            }
         strcpy(tstr, str);
-        strupr(tstr);
+        _strupr(tstr);
         if ((tch = strrchr(tstr, '/')) == NULL)
            {
             if ((tch = strrchr(tstr, '\\')) != NULL)
@@ -108,22 +108,22 @@ void main(int argc, char *argv[])
            }
         printf("Entry %d: %s -> %s ", wadhead.entries, str, resname);
         pad = 0;
-        if ((resource = open(str, O_RDONLY | O_BINARY)) == -1)
+        if ((resource = _open(str, O_RDONLY | O_BINARY)) == -1)
            {
             // Just a place holder... MARKER FILE
             waddir[wadhead.entries].length = 0;
            }
         else
            {
-            flength = filelength(resource);
+            flength = _filelength(resource);
             databuff = (unsigned char *)realloc(databuff, flength+4);
-            read(resource, databuff, flength);
-            close(resource);
+            _read(resource, databuff, flength);
+            _close(resource);
             if ((flength%4) != 0)
                {
                 pad = (4-(flength % 4));
                }
-            write(wadfile, databuff, flength+pad);
+            _write(wadfile, databuff, flength+pad);
             waddir[wadhead.entries].length = flength;
            }
         printf("%ld bytes.", flength);
@@ -133,10 +133,10 @@ void main(int argc, char *argv[])
         wadhead.entries++;
         printf("\n");
        }
-    write(wadfile, waddir, sizeof(waddir_t)*wadhead.entries);
-    lseek(wadfile, 0, SEEK_SET);
-    write(wadfile, &wadhead, sizeof(wadhead_t));
-    close(wadfile);
+    _write(wadfile, waddir, sizeof(waddir_t)*wadhead.entries);
+    _lseek(wadfile, 0, SEEK_SET);
+    _write(wadfile, &wadhead, sizeof(wadhead_t));
+    _close(wadfile);
     fclose(namelist);
    }
 
