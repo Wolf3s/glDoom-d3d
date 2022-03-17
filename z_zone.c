@@ -41,7 +41,7 @@ void lfprintf(char *message, ... );
 //  because it will get overwritten automatically if needed.
 // 
  
-#define ZONEID	0x1d4a11 
+#define ZONEID	0x1d4a11
 
 
 typedef struct

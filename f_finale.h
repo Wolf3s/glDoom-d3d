@@ -42,7 +42,7 @@ void F_Drawer (void);
 
 void F_StartFinale (void);
 
-void GL_WriteText(int x, int y, char* string);
+
 
 
 #endif

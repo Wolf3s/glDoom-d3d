@@ -415,6 +415,7 @@ extern float fXAngle;
 // 
 void G_BuildTiccmd (ticcmd_t* cmd) 
    { 
+    int       i; 
     dboolean   strafe;
     dboolean   bstrafe; 
     int       speed;

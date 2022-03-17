@@ -70,6 +70,18 @@ int			numlumps;
 
 void**			lumpcache;
 
+/* This is a redefinition of a standard 'C' function -- not necessary...
+int filelength (int handle) 
+{ 
+    struct stat	fileinfo;
+    
+    if (fstat (handle,&fileinfo) == -1)
+	I_Error ("Error fstating");
+
+    return fileinfo.st_size;
+}
+*/
+
 void
 ExtractFileBase
 ( char*		path,
@@ -130,7 +142,7 @@ void W_AddFile (char *filename)
 {
     wadinfo_t		header;
     lumpinfo_t*		lump_p;
-    intptr_t		i;
+    unsigned		i;
     int			handle;
     int			length;
     int			startlump;
@@ -148,7 +160,7 @@ void W_AddFile (char *filename)
 	reloadlump = numlumps;
     }
 		
-    if ( (handle = _open (filename,O_RDONLY | O_BINARY)) == -1)
+    if ( (handle = open (filename,O_RDONLY | O_BINARY)) == -1)
        {
 	    con_printf(" couldn't open %s\n",filename);
 	    return;
@@ -157,19 +169,19 @@ void W_AddFile (char *filename)
     con_printf(" adding %s\n", filename);
     startlump = numlumps;
 	
-    if (_strcmpi (filename+strlen(filename)-3 , "wad" ) )
+    if (strcmpi (filename+strlen(filename)-3 , "wad" ) )
     {
 	// single lump file
 	fileinfo = &singleinfo;
 	singleinfo.filepos = 0;
-	singleinfo.size = LONG(_filelength(handle));
+	singleinfo.size = LONG(filelength(handle));
 	ExtractFileBase (filename, singleinfo.name);
 	numlumps++;
     }
     else 
     {
 	// WAD file
-	_read (handle, &header, sizeof(header));
+	read (handle, &header, sizeof(header));
 	if (strncmp(header.identification,"IWAD",4))
 	{
 	    // Homebrew levels?
@@ -185,8 +197,8 @@ void W_AddFile (char *filename)
 	header.infotableofs = LONG(header.infotableofs);
 	length = header.numlumps*sizeof(filelump_t);
 	fileinfo = alloca (length);
-	_lseek (handle, header.infotableofs, SEEK_SET);
-	_read (handle, fileinfo, length);
+	lseek (handle, header.infotableofs, SEEK_SET);
+	read (handle, fileinfo, length);
 	numlumps += header.numlumps;
     }
 
@@ -201,7 +213,7 @@ void W_AddFile (char *filename)
 	
     storehandle = reloadname ? -1 : handle;
 	
-    for (i = startlump ; i < numlumps ; i++, lump_p++, fileinfo++)
+    for (i=startlump ; (int)i<numlumps ; i++,lump_p++, fileinfo++)
     {
 	lump_p->handle = storehandle;
 	lump_p->position = LONG(fileinfo->filepos);
@@ -210,7 +222,7 @@ void W_AddFile (char *filename)
     }
 	
     if (reloadname)
-	_close (handle);
+	close (handle);
 }
 
 
@@ -226,7 +238,7 @@ void W_Reload (void)
     wadinfo_t		header;
     int			lumpcount;
     lumpinfo_t*		lump_p;
-    intptr_t		i;
+    unsigned		i;
     int			handle;
     int			length;
     filelump_t*		fileinfo;
@@ -234,22 +246,22 @@ void W_Reload (void)
     if (!reloadname)
 	return;
 		
-    if ( (handle = _open (reloadname,O_RDONLY | O_BINARY)) == -1)
+    if ( (handle = open (reloadname,O_RDONLY | O_BINARY)) == -1)
 	I_Error ("W_Reload: couldn't open %s",reloadname);
 
-    _read (handle, &header, sizeof(header));
+    read (handle, &header, sizeof(header));
     lumpcount = LONG(header.numlumps);
     header.infotableofs = LONG(header.infotableofs);
     length = lumpcount*sizeof(filelump_t);
     fileinfo = alloca (length);
-    _lseek (handle, header.infotableofs, SEEK_SET);
-    _read (handle, fileinfo, length);
+    lseek (handle, header.infotableofs, SEEK_SET);
+    read (handle, fileinfo, length);
     
     // Fill in lumpinfo
     lump_p = &lumpinfo[reloadlump];
 	
     for (i=reloadlump ;
-	 i<reloadlump+lumpcount ;
+	 (int)i<reloadlump+lumpcount ;
 	 i++,lump_p++, fileinfo++)
     {
 	if (lumpcache[i])
@@ -259,7 +271,7 @@ void W_Reload (void)
 	lump_p->size = LONG(fileinfo->size);
     }
 	
-    _close (handle);
+    close (handle);
 }
 
 
@@ -278,7 +290,7 @@ void W_Reload (void)
 //  does override all earlier ones.
 //
 void W_InitMultipleFiles (char** filenames)
-{	
+   {	
     int		size;
     
     // open all the files, load headers, and count lumps
@@ -301,7 +313,7 @@ void W_InitMultipleFiles (char** filenames)
 	I_Error ("Couldn't allocate lumpcache");
 
     memset (lumpcache,0, size);
-}
+   }
 
 
 
@@ -435,21 +447,21 @@ W_ReadLump
     if (l->handle == -1)
     {
 	// reloadable file, so use open / read / close
-	if ( (handle = _open (reloadname,O_RDONLY | O_BINARY)) == -1)
+	if ( (handle = open (reloadname,O_RDONLY | O_BINARY)) == -1)
 	    I_Error ("W_ReadLump: couldn't open %s",reloadname);
     }
     else
 	handle = l->handle;
 		
-    _lseek (handle, l->position, SEEK_SET);
-    c = _read (handle, dest, l->size);
+    lseek (handle, l->position, SEEK_SET);
+    c = read (handle, dest, l->size);
 
     if (c < l->size)
 	I_Error ("W_ReadLump: only read %i of %i on lump %i",
 		 c,l->size,lump);	
 
     if (l->handle == -1)
-	_close (handle);
+	close (handle);
 		
     // ??? I_EndRead ();
 }
@@ -480,7 +492,13 @@ W_CacheLumpName
 ( char*		name,
   int		tag )
 {
-    return W_CacheLumpNum (W_GetNumForName(name), tag);
+ int LumpNum;
+
+ LumpNum = W_GetNumForName(name);
+ if (LumpNum >= 0)
+    return W_CacheLumpNum(LumpNum, tag);
+ else
+    return NULL;
 }
 
 
@@ -490,59 +508,57 @@ W_CacheLumpName
 int		info[2500][10];
 int		profilecount;
 
-void W_Profile (void)
+void W_Profile(void)
 {
     int		i;
-    memblock_t*	block;
-    void*	ptr;
+    memblock_t* block;
+    void* ptr;
     char	ch;
-    FILE*	f;
+    FILE* f;
     int		j;
     char	name[9];
-	
-	
-    for (i=0 ; i<numlumps ; i++)
-    {	
-	ptr = lumpcache[i];
-	if (!ptr)
-	{
-	    ch = ' ';
-	    continue;
-	}
-	else
-	{
-	    block = (memblock_t *) ( (byte *)ptr - sizeof(memblock_t));
-	    if (block->tag < PU_PURGELEVEL)
-		ch = 'S';
-	    else
-		ch = 'P';
-	}
-	info[i][profilecount] = ch;
+
+
+    for (i = 0; i < numlumps; i++)
+    {
+        ptr = lumpcache[i];
+        if (!ptr)
+        {
+            ch = ' ';
+            continue;
+        }
+        else
+        {
+            block = (memblock_t*)((byte*)ptr - sizeof(memblock_t));
+            if (block->tag < PU_PURGELEVEL)
+                ch = 'S';
+            else
+                ch = 'P';
+        }
+        info[i][profilecount] = ch;
     }
     profilecount++;
-	
-    f = fopen ("waddump.txt","w");
+
+    f = fopen("waddump.txt", "w");
     name[8] = 0;
 
-    for (i=0 ; i<numlumps ; i++)
+    for (i = 0; i < numlumps; i++)
     {
-	memcpy (name,lumpinfo[i].name,8);
+        memcpy(name, lumpinfo[i].name, 8);
 
-	for (j=0 ; j<8 ; j++)
-	    if (!name[j])
-		break;
+        for (j = 0; j < 8; j++)
+            if (!name[j])
+                break;
 
-	for ( ; j<8 ; j++)
-	    name[j] = ' ';
+        for (; j < 8; j++)
+            name[j] = ' ';
 
-	fprintf (f,"%s ",name);
+        fprintf(f, "%s ", name);
 
-	for (j=0 ; j<profilecount ; j++)
-	    fprintf (f,"    %c",info[i][j]);
+        for (j = 0; j < profilecount; j++)
+            fprintf(f, "    %c", info[i][j]);
 
-	fprintf (f,"\n");
+        fprintf(f, "\n");
     }
-    fclose (f);
+    fclose(f);
 }
-
-

@@ -30,7 +30,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v141_xp</PlatformToolset>
     <UseOfMfc>false</UseOfMfc>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -152,7 +152,6 @@
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <CompileAs>CompileAsC</CompileAs>
-      <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -160,7 +159,7 @@
     </ResourceCompile>
     <Link>
       <AdditionalDependencies>opengl32.lib;glu32.lib;odbc32.lib;odbccp32.lib;winmm.lib;dinput8.lib;dsound.lib;wsock32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>.\x64\Debug\GLDOOM.exe</OutputFile>
+      <OutputFile>.\Debug/GLDOOM.exe</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ProgramDatabaseFile>.\Debug/GLDOOM.pdb</ProgramDatabaseFile>
@@ -434,21 +433,15 @@
     <None Include="Playpal.bin" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="glDoom.ico" />
+    <Text Include="controls.txt" />
+    <Text Include="doomflaw.txt" />
+    <Text Include="doomnet.txt" />
+    <Text Include="newlumps.txt" />
+    <Text Include="relnotes_94e.txt" />
+    <Text Include="TodoList.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="docs\changelog.txt" />
-    <Text Include="docs\controls.txt" />
-    <Text Include="docs\doomflaw.txt" />
-    <Text Include="docs\DOOMLIC.TXT" />
-    <Text Include="docs\newlumps.txt" />
-    <Text Include="docs\readme.bal.txt" />
-    <Text Include="docs\readme.bill.txt" />
-    <Text Include="docs\readme.dos.txt" />
-    <Text Include="docs\readme.matrox.txt" />
-    <Text Include="docs\relnotes_94d.txt" />
-    <Text Include="docs\relnotes_94e.txt" />
-    <Text Include="docs\TodoList.txt" />
+    <Image Include="glDoom.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
