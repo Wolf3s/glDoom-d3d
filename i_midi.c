@@ -179,7 +179,7 @@ unsigned short SwapSHORT(unsigned short x)
 }
 
 // Swapping 32bit.
-unsigned long SwapLONG( unsigned long x)
+unsigned long long SwapLONG( unsigned long long x)
 {
     return
 	(x>>24)
@@ -189,13 +189,13 @@ unsigned long SwapLONG( unsigned long x)
 }
 */
 short	SwapSHORT(short);
-long	SwapLONG(long);
+long long	SwapLONG(long long);
 
 // Endianess handling.
 // WAD files are stored little endian.
 
 #define SHORT(x)	((short)SwapSHORT((unsigned short) (x)))
-#define LONG(x)         ((long)SwapLONG((unsigned long) (x)))
+#define LONG(x)         ((long long)SwapLONG((unsigned long long) (x)))
 
 #else
 
@@ -341,7 +341,7 @@ void WriteTrack( int tracknum, int file, struct Track track[] )
     size_t        quot, rem;
 
     /* Do we risk overflow here ? */
-    size = (unsigned long)track[tracknum].current+4;
+    size = (unsigned int)track[tracknum].current+4;
     if (size > 32767)
        {
         lfprintf("ERROR: track size overflow...\n");
@@ -368,7 +368,7 @@ void WriteTrack( int tracknum, int file, struct Track track[] )
 
 void WriteFirstTrack( int file )
    {
-    unsigned long           size;
+    unsigned int           size;
 
     write( file, "MTrk", 4 );
     size = LONG(43);
@@ -465,8 +465,8 @@ int qmus2mid( const char *mid, int nodisplay, unsigned short division, int Buffe
        }
     if ( !nodisplay )
        {
-        lfprintf( "%s (%lu bytes) contains %d melodic channel%s.\n", musname,
-               (unsigned long) bufflen, MUSh.channels,
+        lfprintf( "%s (%ld bytes) contains %d melodic channel%s.\n", musname,
+               (unsigned int) bufflen, MUSh.channels,
                MUSh.channels >= 2 ? "s": "" );
        }
     if ( MUSh.channels > 15 )      /* <=> MUSchannels+drums > 16 */
@@ -807,7 +807,7 @@ int MidiConvert( const char *mid, int nodisplay, int div, int size, int nocomp, 
         lfprintf( "%s converted successfully.\n", musname );
         if ( (file = open( mid, O_RDWR | O_BINARY )) != -1 )
            {
-            sprintf( buffer, ": %lu bytes", (unsigned long) filelength(file) );
+            sprintf( buffer, ": %ld bytes", (unsigned int) filelength(file) );
             close( file );
            }
         lfprintf( "%s (%scompressed) written%s.\n", mid, nocomp ? "NOT ": "",file ? buffer: ""  );

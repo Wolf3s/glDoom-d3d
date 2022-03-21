@@ -1101,7 +1101,7 @@ void IdentifyVersion (void)
                     strcat(gamename, ".wad");
                    }
                 // found a matching wad name - check to see if it exists
-                if (!access(gamename, R_OK))
+                if (!_access(gamename, R_OK))
                    {
                     // found a WAD and it exists. Let's use it. 
                     con_printf("Game mode %s selected\n", szGameNames[i]);
@@ -1121,7 +1121,7 @@ void IdentifyVersion (void)
     if (strlen(gamename) > 0)
        {
         con_printf("Standard game not specified - checking.\n");
-        if (!access(gamename, R_OK))
+        if (!_access(gamename, R_OK))
            {
             con_printf("Wad file exists determining \"mode\"...\n");
             D_AddFile(gamename);
@@ -1147,7 +1147,7 @@ void IdentifyVersion (void)
     for (i = 0; i < gw_other; i++)
        {
         sprintf(doomwad, "%s/%s.wad", doomwaddir, szWadNames[i]);
-        if ( !access(doomwad,R_OK) )
+        if ( !_access(doomwad,R_OK) )
            {
             con_printf("Found game WAD for: %s\n", szGameNames[i]);
             strcpy(gamename, szWadNames[i]);
@@ -1356,7 +1356,7 @@ void D_DoomMain (void)
        {
         con_printf(D_CDROM);
         //mkdir("c:\\doomdata",0); // What's the ",0" for? Oh yeah, permissions...
-        mkdir("c:\\doomdata");
+        _mkdir("c:\\doomdata");
         strcpy (basedefault,"c:/doomdata/default.cfg");
        }	
     

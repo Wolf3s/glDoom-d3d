@@ -33,6 +33,7 @@ rcsid[] = "$Id: hu_lib.c,v 1.3 1997/01/26 07:44:58 b1 Exp $";
 #include "hu_lib.h"
 #include "r_local.h"
 #include "r_draw.h"
+#include "f_finale.h"
 
 // dboolean : whether the screen is always erased
 #define noterased viewwindowx
@@ -100,10 +101,7 @@ char HudText[256];
 
 void GL_HUlib_drawTextLine( hu_textline_t *l, dboolean drawcursor )
    {
-    int			i;
-    int			w;
-    int			x;
-    unsigned char	c;
+    int x = 0; // [AB] initialisation
 
     // draw the new stuff
     strncpy(HudText, l->l, l->len);
