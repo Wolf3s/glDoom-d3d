@@ -45,8 +45,8 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 0,9,5,0
- PRODUCTVERSION 0,9,5,0
+ FILEVERSION 0,9,6,0
+ PRODUCTVERSION 0,9,6,0
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x29L
@@ -62,17 +62,17 @@ BEGIN
         BLOCK "040904b0"
         BEGIN
             VALUE "Comments", "This program is FREEWARE.  If you paid for it, you paid too much."
-            VALUE "CompanyName", "Bruce Lewis"
+            VALUE "CompanyName", "Bruce Lewis, Adam B"
             VALUE "FileDescription", "glDoom - Doom using OpenGL rendering"
-            VALUE "FileVersion", "0, 9, 5, 0"
+            VALUE "FileVersion", "0, 9, 6, 0"
             VALUE "InternalName", "glDoom"
-            VALUE "LegalCopyright", "Copyright © 1998-2010  - Bruce A. Lewis"
+            VALUE "LegalCopyright", "Copyright © 1998-2010  - Bruce A. Lewis. Copyright © 2022  - Adam B"
             VALUE "LegalTrademarks", "Doom is a Trademark of id Software, Inc.; Doom is Copyright © 1993, id Software"
             VALUE "OriginalFilename", "glDoom.exe"
-            VALUE "PrivateBuild", "095C"
-            VALUE "ProductName", "Bruce Lewis, glDoom"
-            VALUE "ProductVersion", "0, 9, 5, 0"
-            VALUE "SpecialBuild", "095C1"
+            VALUE "PrivateBuild", "096B"
+            VALUE "ProductName", "Bruce Lewis, Adam B, glDoom"
+            VALUE "ProductVersion", "0, 9, 6, 0"
+            VALUE "SpecialBuild", "096B1"
         END
     END
     BLOCK "VarFileInfo"
