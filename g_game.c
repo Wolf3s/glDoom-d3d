@@ -73,7 +73,7 @@ rcsid[] = "$Id: g_game.c,v 1.8 1997/02/03 22:45:09 b1 Exp $";
 #include "doomcmd.h"
 
 
-#define SAVEGAMESIZE	0x2c000
+#define SAVEGAMESIZE	0x2c0000
 #define SAVESTRINGSIZE	24
 
 void lfprintf(char *message, ... );
