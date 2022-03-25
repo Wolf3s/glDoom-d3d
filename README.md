@@ -8,14 +8,14 @@ This repository contains improvements for glDoom port
 * few bugfixes for buffer overflows & invalid memory pointers
 
 ### Fixes from Myself
-* 64bit cleanups to allow it to build and run on 64bit systems (does not yet play)
+* 64bit cleanups to allow it to build and run on 64bit systems
 * Cleanups for modern types (uintptr_t, intptr_t and MSVC specific functions like (underscore)access etc..)
 * Addition of the score system code from WINDOOM
 
 ### Future
 I am planning for this port, the following (in order or priority)
 
-1. Cleaning up and optimising the code to run properly on 64bit Windows
+1. Cleaning up and optimising the code to run properly on 64bit Windows (DONE)
 2. Cleaning up the OpenGL code and moving some things to shaders
 3. Making glDoom multiplatform (Linux and macOS) - with an SDL window but still using OpenGL to draw and accelerate
 4. Allowing the user to select the resolution and fullscreen/window within glDoom's menu
