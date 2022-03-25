@@ -411,7 +411,7 @@ typedef enum
 
 extern unsigned char scan2char[256];
 
-extern long	totalscore;			// 10.15.98 scorekeeping dlw (2billion?)
+extern int	totalscore;			// 10.15.98 scorekeeping dlw (2billion?)
 extern char totalscoretextline[200];
 extern char HUDscoretext[200];
 extern char scoreuserwad[256];

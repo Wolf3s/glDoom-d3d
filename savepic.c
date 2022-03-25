@@ -6,14 +6,14 @@
 #include <fcntl.h>
 #include <malloc.h>
 
-long           columns;
+int           columns;
 unsigned char *image;
 
 void SavePic(int x, int y, unsigned char *texels, char *filename)
    {
     unsigned short w, h, vo, ho, run;
     int            wide, high, fn, col = 0, row = 0, start = 0;
-    long          *columns, isize = 0;
+    int          *columns, isize = 0;
     unsigned char *image, *p;
     unsigned char  colbuff[128];
 
@@ -23,8 +23,8 @@ void SavePic(int x, int y, unsigned char *texels, char *filename)
     h = y;
 
     // allocate space for columns offsets
-    columns = (long *)malloc(sizeof(long)*x);
-    memset(columns, 0, sizeof(long)*x);
+    columns = (int *)malloc(sizeof(int)*x);
+    memset(columns, 0, sizeof(int)*x);
 
     // Worst case scenario is if every other texel
     // is 0 (blank). This means that every column
@@ -41,7 +41,7 @@ void SavePic(int x, int y, unsigned char *texels, char *filename)
        {
         run = 0;
         start = 0;
-        columns[col] = ((sizeof(long)*x)+8)+(p - image);
+        columns[col] = ((sizeof(int)*x)+8)+(p - image);
         for (row = 0; row < y; row++)
            {
             if (texels[(row*x)+col] == 0)
@@ -87,7 +87,7 @@ void SavePic(int x, int y, unsigned char *texels, char *filename)
     write(fn, &h, sizeof(short));
     write(fn, &vo, sizeof(short));
     write(fn, &ho, sizeof(short));
-    write(fn, columns, sizeof(long)*x);
+    write(fn, columns, sizeof(int)*x);
     write(fn, image, ((p-image)+1));
     // close the output file
     close(fn);

@@ -13,9 +13,6 @@
       <UniqueIdentifier>{3d5312ee-80fe-4ea4-9fa9-72de62eb5893}</UniqueIdentifier>
       <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;cnt;rtf;gif;jpg;jpeg;jpe</Extensions>
     </Filter>
-    <Filter Include="Docs">
-      <UniqueIdentifier>{5423715d-6dd2-411b-b0c8-071d072cdff2}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="am_map.c">
@@ -521,46 +518,16 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Text Include="controls.txt" />
+    <Text Include="doomflaw.txt" />
+    <Text Include="doomnet.txt" />
+    <Text Include="newlumps.txt" />
+    <Text Include="relnotes_94e.txt" />
+    <Text Include="TodoList.txt" />
+  </ItemGroup>
+  <ItemGroup>
     <Image Include="glDoom.ico">
       <Filter>Resource Files</Filter>
     </Image>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="docs\changelog.txt">
-      <Filter>Docs</Filter>
-    </Text>
-    <Text Include="docs\controls.txt">
-      <Filter>Docs</Filter>
-    </Text>
-    <Text Include="docs\doomflaw.txt">
-      <Filter>Docs</Filter>
-    </Text>
-    <Text Include="docs\DOOMLIC.TXT">
-      <Filter>Docs</Filter>
-    </Text>
-    <Text Include="docs\newlumps.txt">
-      <Filter>Docs</Filter>
-    </Text>
-    <Text Include="docs\readme.bal.txt">
-      <Filter>Docs</Filter>
-    </Text>
-    <Text Include="docs\readme.bill.txt">
-      <Filter>Docs</Filter>
-    </Text>
-    <Text Include="docs\readme.dos.txt">
-      <Filter>Docs</Filter>
-    </Text>
-    <Text Include="docs\readme.matrox.txt">
-      <Filter>Docs</Filter>
-    </Text>
-    <Text Include="docs\relnotes_94d.txt">
-      <Filter>Docs</Filter>
-    </Text>
-    <Text Include="docs\relnotes_94e.txt">
-      <Filter>Docs</Filter>
-    </Text>
-    <Text Include="docs\TodoList.txt">
-      <Filter>Docs</Filter>
-    </Text>
   </ItemGroup>
 </Project>

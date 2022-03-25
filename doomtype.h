@@ -65,7 +65,7 @@ typedef unsigned char byte;
 #define MAXINT		((int)0x7fffffff)	
 #endif
 #ifndef MAXLONG
-#define MAXLONG		((long)0x7fffffff)
+#define MAXLONG		((long long)0x7fffffff)
 #endif
 #ifndef MINCHAR
 #define MINCHAR		((char)0x80)
@@ -79,7 +79,7 @@ typedef unsigned char byte;
 #define MININT		((int)0x80000000)	
 #endif
 #ifndef MINLONG
-#define MINLONG		((long)0x80000000)
+#define MINLONG		((long long)0x80000000)
 #endif
 #endif
 

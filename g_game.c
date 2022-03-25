@@ -129,7 +129,7 @@ int             displayplayer;          // view being displayed
 int             gametic; 
 int             levelstarttic;          // gametic at level start 
 int             totalkills, totalitems, totalsecret;    // for intermission 
-long	        totalscore;			// 10.15.98 scorekeeping dlw (2billion?)
+int	        totalscore;			// 10.15.98 scorekeeping dlw (2billion?)
 char	        totalscoretextline[200];
 char	        scoreuserwad[256];
 char	        HUDscoretext[200];

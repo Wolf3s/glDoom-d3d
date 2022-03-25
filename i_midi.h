@@ -61,9 +61,9 @@ typedef struct
 
 struct Track
    {
-    unsigned long   current;
+    unsigned int   current;
     unsigned char   vel;
-    long            DeltaTime;
+    int            DeltaTime;
     unsigned char   LastEvent;
     char           *data;            /* Primary data */
    };

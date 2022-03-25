@@ -256,7 +256,7 @@ void V_DrawPatchBuff ( int x, int y, unsigned char *buff, patch_t* patch )
     unsigned short  *tshort;
     short            pwidth;
     column_t        *column;
-    long            *columnofs;
+    int            *columnofs;
     byte            *desttop;
     byte            *dest;
     byte            *source; 
@@ -279,7 +279,7 @@ void V_DrawPatchBuff ( int x, int y, unsigned char *buff, patch_t* patch )
     tshort++;
     tshort++;
     tshort++;
-    columnofs = (long *)tshort;
+    columnofs = (int *)tshort;
 
     //w = SHORT(patch->width);
 
