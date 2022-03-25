@@ -441,7 +441,6 @@ void R_InitTextures (void)
     int			temp1;
     int			temp2;
     int			temp3;
-    char        tstr[32];
     
     // Load the patch names from pnames.lmp.
     name[8] = 0;	
@@ -493,13 +492,15 @@ void R_InitTextures (void)
     temp1 = W_GetNumForName ("S_START");  // P_???????
     temp2 = W_GetNumForName ("S_END") - 1;
     temp3 = ((temp2-temp1+63)/64) + ((numtextures+63)/64);
-    con_printf("[%*s ]", temp3, " ");
-    for (i = 0; i < (temp3 + 2); i++)
-    {
-        tstr[i] = '\x8';
-    }
-    tstr[i] = '\0';
-    con_printf(tstr);
+    // [AB] - this originally broke TNT and PLUTONIA wad loading, so I reverted it to vanilla
+    // [AB] - no idea why it was changed..  seems pointless to me.
+    con_printf("[");
+    for (i = 0; i < temp3; i++)
+        con_printf(" ");
+    con_printf("         ]");
+    for (i = 0; i < temp3; i++)
+        con_printf("\x8");
+    con_printf("\x8\x8\x8\x8\x8\x8\x8\x8\x8\x8");
 	
     for (i=0; i<numtextures ; i++, directory++)
     {
