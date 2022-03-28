@@ -1892,10 +1892,10 @@ void G_RecordDemo_II (char* name)
     strcpy (demoname, name); 
     strcat (demoname, ".dem"); 
     lfprintf("Record demo II : %s\n", demoname);
-    maxsize = 0x20000;
+    maxsize = 0x70000;
     i = M_CheckParm ("-maxdemo");
     if (i && i < myargc-1)
-	    maxsize = atoi(myargv[i+1])*1024;
+	    maxsize = atoi(myargv[i+1])*9999;
     demobuffer = Z_Malloc (maxsize,PU_STATIC,NULL);
     demoend = demobuffer + maxsize;
 	
