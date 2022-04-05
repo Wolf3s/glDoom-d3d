@@ -86,8 +86,8 @@ void R_ClearDrawSegs (void)
 //
 typedef	struct
 {
-    int	first;
-    int last;
+    short first;
+    short last;
     
 } cliprange_t;
 
@@ -127,17 +127,12 @@ R_ClipSolidWallSegment
 	{
 	    // Post is entirely visible (above start),
 	    //  so insert a new clippost.
-	    R_StoreWallRange (first, last);
-	    next = newend;
-	    newend++;
-	    
-	    while (next != start)
-	    {
-		*next = *(next-1);
-		next--;
-	    }
-	    next->first = first;
-	    next->last = last;
+        R_StoreWallRange(first, last);
+
+        // 1/11/98 killough: performance tuning using fast memmove
+        memmove(start + 1, start, (++newend - start) * sizeof(*start));
+        start->first = first;
+        start->last = last;
 	    return;
 	}
 		
@@ -248,11 +243,11 @@ extern dboolean *DrawFlat;
 //
 void R_ClearClipSegs (void)
 {
-    solidsegs[0].first = -(0x7fffffff);
+    solidsegs[0].first = -0x7fff; // ffff;    new short limit --  killough
     solidsegs[0].last = -1;
     solidsegs[1].first = viewwidth;
-    solidsegs[1].last = 0x7fffffff;
-    newend = solidsegs+2;
+    solidsegs[1].last = 0x7fff; // ffff;      new short limit --  killough
+    newend = solidsegs + 2;
 }
 
 float AngleTo( float x1, float z1, float x2, float z2 );
