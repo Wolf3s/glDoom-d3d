@@ -371,8 +371,9 @@ void R_AddLine (seg_t*	line)
     
     // The seg is in the view range,
     // but not necessarily visible.
-    angle1 = (angle1+ANG90)>>ANGLETOFINESHIFT;
-    angle2 = (angle2+ANG90)>>ANGLETOFINESHIFT;
+    angle1 = (angle1 + ANG90) >> ANGLETOFINESHIFT;
+    angle2 = (angle2 + ANG90) >> ANGLETOFINESHIFT;
+
     x1 = viewangletox[angle1];
     x2 = viewangletox[angle2];
 
