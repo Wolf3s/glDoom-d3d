@@ -434,8 +434,8 @@ void AM_findMinMaxBoundaries(void)
 	    max_y = vertexes[i].y;
     }
   
-    max_w = max_x - min_x;
-    max_h = max_y - min_y;
+    max_w = max_x / 2 - min_x / 2;
+    max_h = max_y / 2 - min_y / 2;
 
     min_w = 2*PLAYERRADIUS; // const? never changed?
     min_h = 2*PLAYERRADIUS;
@@ -1615,6 +1615,7 @@ void GL_AM_Drawer (void)
     GL_AM_drawPlayers();
     if (cheating==2)
         GL_AM_drawThings(THINGCOLORS, THINGRANGE);
+
     //GL_AM_drawCrosshair(XHAIRCOLORS);
 
     //GL_AM_drawMarks();
