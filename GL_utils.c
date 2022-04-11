@@ -7,7 +7,6 @@
 #include "doomdata.h"
 #include "r_defs.h"
 #include "gldefs.h"
-//#include "sys_win.h"
 #include "v_video.h"
 #include "w_wad.h"
 #include "z_zone.h"
@@ -310,10 +309,10 @@ int GL_LoadTexture(int TexNumb)
        }
     TexList[TexNumb].GLWide *= wide;
     // Don't think we need this for height...
-    //while (TexList[TexNumb].GLWide > (TexList[TexNumb].GLHigh * 8))
-    //   {
-    //    TexList[TexNumb].GLHigh = TexList[TexNumb].GLHigh * 2;
-    //   }
+    while (TexList[TexNumb].GLWide > (TexList[TexNumb].GLHigh * 8))
+    {
+        TexList[TexNumb].GLHigh = TexList[TexNumb].GLHigh * 2;
+    }
     TexWide = TexList[TexNumb].GLWide;
     TexHigh = TexList[TexNumb].GLHigh;
     for (n = 0; n < (TexWide*TexHigh); n++)
@@ -328,7 +327,6 @@ int GL_LoadTexture(int TexNumb)
         px = textures[TexList[TexNumb].Number]->patches[n].originx;
         py = textures[TexList[TexNumb].Number]->patches[n].originy;
         V_DrawPatchOffsetBuff( px,py, TexRaw,
-                               //TexList[TexNumb].DWide, TexList[TexNumb].DHigh,
                                TexWide, TexHigh,
                                textures[TexList[TexNumb].Number]->patches[n].patch);
        }
@@ -388,7 +386,7 @@ int GL_LoadSkyTexture(int TexNumb, int *SkyTex)
     TexWide = TexList[TexNumb].GLWide;
     TexHigh = TexList[TexNumb].GLHigh;
 
-    parts = TexWide / 256;
+    parts = TexWide / 512;
 
     memset(SkyRaw, 0, TexWide*TexHigh);
 
@@ -403,14 +401,14 @@ int GL_LoadSkyTexture(int TexNumb, int *SkyTex)
                                textures[TexList[TexNumb].Number]->patches[n].patch);
        }
 
-    TexWide = 256;
+    TexWide = 512;
     for (part = 0; part < parts; part++)
        {
-        s = part * 256;
+        s = part * 512;
         d = 0;
-        glw = 256;
+        glw = 512;
         w = TexList[TexNumb].DWide;
-        memset(TexRaw, 0, 256*w);
+        memset(TexRaw, 0, 512 *w);
         for (r = 0; r < TexHigh; r++)
            {
             memcpy(&TexRaw[d], &SkyRaw[s], glw);
@@ -446,7 +444,6 @@ int GL_LoadFlatTexture(int TexNumb)
        {
         TexRaw[n] = pixels[n];
         TexAlpha[n] = GLD_COLORED;
-        //TexAlpha[n] = Transparent[n];
        }
     TempTexNumb = MakeRGBATexture(false, false, TexList[TexNumb].DWide, TexList[TexNumb].DHigh);
     return( TempTexNumb );

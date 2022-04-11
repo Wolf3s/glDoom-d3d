@@ -205,6 +205,8 @@ int     gl_alphatest;
 int     gl_premalpha;
 int     gl_widetex;
 
+int     vsync;
+
 int     music;
 
 int     joybfire; 

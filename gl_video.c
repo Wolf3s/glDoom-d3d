@@ -67,6 +67,8 @@ extern video_t     video;
 
 extern int         starttime;
 
+extern int         vsync;
+
 // OpenGL renderer stuff
 
 HGLRC                hRC = 0;                 // A global rendering context
@@ -323,11 +325,6 @@ dboolean StartUpOpenGL( HWND hWnd )
         0, 0, 0                 // No layer, visible or damage masks
        };
 
-/*
-    putenv("SST_GAMMA=1.3");
-    putenv("SSTV2_GAMMA=1.3");
-*/
-
     lfprintf("Attempting to ChoosePixelFormat...\n");
     hGDC = GetDC( hWnd );
     nMyPixelFormatID = ChoosePixelFormat( hGDC, &pfd );
@@ -415,7 +412,13 @@ dboolean StartUpOpenGL( HWND hWnd )
        }
 
     wglMakeCurrent(hGDC, hRC);
-    wglSwapIntervalEXT(1); //[AB] - 2022: Using GLEXT extensions for vertical synchronisation capability.
+    if (vsync)
+    {
+        wglSwapIntervalEXT(VSYNC_ON); //[AB] - 2022: Using GLEXT extensions for vertical synchronisation capability.
+    }
+    else {
+        wglSwapIntervalEXT(VSYNC_OFF);
+    }
     glClearColor( 0.0f, 0.0f, 0.0f, 1.0f );
     glDisable( GL_DEPTH_TEST );
 
@@ -481,62 +484,3 @@ void GetGLInfo(HWND hWnd)
     free(tempstr);
     con_printf("End of OpenGL extensions...\n");
    }
-
-
-/*
-
-void MakeOpenGLFont(void)
-   {
-	HFONT	hfont;
-			
-    g_qeglobals.d_hdcBase = GetDC(hWnd);
-	QEW_SetupPixelFormat(g_qeglobals.d_hdcBase, true);
-
-    if ( ( g_qeglobals.d_hglrcBase = wglCreateContext( g_qeglobals.d_hdcBase ) ) == 0 )
-		Error ("wglCreateContext failed");
-    if (!wglMakeCurrent( g_qeglobals.d_hdcBase, g_qeglobals.d_hglrcBase ))
-		Error ("wglMakeCurrent failed");
-
-	Texture_SetMode(g_qeglobals.d_savedinfo.iTexMenu);
-
-	//
-	// create GL font
-	//
-	hfont = CreateFont(
-		10,	// logical height of font 
-		7,	// logical average character width 
-		0,	// angle of escapement 
-	    0,	// base-line orientation angle 
-		0,	// font weight 
-		0,	// italic attribute flag 
-		0,	// underline attribute flag 
-		0,	// strikeout attribute flag 
-		0,	// character set identifier 
-		0,	// output precision 
-		0,	// clipping precision 
-		0,	// output quality 
-		0,	// pitch and family 
-		0 	// pointer to typeface name string 
-		);
-
-	if ( !hfont )
-		Error( "couldn't create font" );
-		SelectObject (g_qeglobals.d_hdcBase, hfont);
-		if ( ( g_qeglobals.d_font_list = glGenLists (256) ) == 0 )
-		Error( "couldn't create font dlists" );
-	
-	// create the bitmap display lists
-	// we're making images of glyphs 0 thru 255
-	if ( !wglUseFontBitmaps (g_qeglobals.d_hdcBase, 1, 255, g_qeglobals.d_font_list) )
-		Error( "wglUseFontBitmaps faileD" );
-	
-	// indicate start of glyph display lists
-	glListBase (g_qeglobals.d_font_list);
-		// report OpenGL information
-	con_printf ("GL_VENDOR: %s\n", glGetString (GL_VENDOR));
-	con_printf ("GL_RENDERER: %s\n", glGetString (GL_RENDERER));
-	con_printf ("GL_VERSION: %s\n", glGetString (GL_VERSION));
-	con_printf ("GL_EXTENSIONS: %s\n", glGetString (GL_EXTENSIONS));
-   }
-
-*/
