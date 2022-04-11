@@ -24,6 +24,7 @@
 #include <windows.h>
 #include <gl/gl.h>
 #include <gl/glu.h>
+#include <gl/wglext.h>
 
 #include <stdlib.h>
 #include <math.h>
@@ -91,11 +92,11 @@ extern DEVMODE      *pModeList;
 extern HDC           hGDC;
 extern windata_t     WinData;
 
-
 void ShutdownOpenGL(void)
    {
     wglMakeCurrent(NULL, NULL);
     wglDeleteContext( hRC );
+    wglGetSwapIntervalEXT();
    }
 
 void I_ShutdownGraphics(void)
@@ -119,6 +120,7 @@ void I_Start2DFrame()
     glLoadIdentity();
 
     glTranslatef( 0.0f, 0.0f, 0.0f );
+
    }
 
 
@@ -413,6 +415,7 @@ dboolean StartUpOpenGL( HWND hWnd )
        }
 
     wglMakeCurrent(hGDC, hRC);
+    wglSwapIntervalEXT(1); //[AB] - 2022: Using GLEXT extensions for vertical synchronisation capability.
     glClearColor( 0.0f, 0.0f, 0.0f, 1.0f );
     glDisable( GL_DEPTH_TEST );
 

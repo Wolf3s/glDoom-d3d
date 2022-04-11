@@ -168,7 +168,7 @@ BOOL CreateTempWindow();
 LRESULT CALLBACK DummyProc(HWND, UINT, WPARAM, LPARAM);
 
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
-char      szAppName[] = "glDoom - v0.96b";
+char      szAppName[] = "glDoom - v0.96c";
 char      szDbgName[] = "glDoom.dbg";
 char      szCfgName[] = "glDoom.cfg";
 HACCEL    ghAccel;
