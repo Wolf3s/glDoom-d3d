@@ -565,7 +565,6 @@ win_defaulti_t wdefaultv[] =
     d_value, "gl_alphatest",     &gl_alphatest,       0,
     d_value, "gl_premalpha",     &gl_premalpha,       0,
     d_value, "gl_widetex",       &gl_widetex,         1,
-    d_value, "vsync",            &vsync,              1,
 
     d_value, "hudmode",          &hudmode,            1,  // defaults to original
 

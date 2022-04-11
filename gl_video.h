@@ -6,7 +6,6 @@
 
 #define GL_MAX_EXT     128                    // How many extensions will we allow?
 #define VSYNC_ON	   1
-#define VSYNC_OFF      0
 
 typedef enum { gl_2d, gl_3d } glmode_t;
 dboolean StartUpOpenGL( HWND hWnd );

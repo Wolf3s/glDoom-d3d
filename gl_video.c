@@ -412,13 +412,7 @@ dboolean StartUpOpenGL( HWND hWnd )
        }
 
     wglMakeCurrent(hGDC, hRC);
-    if (vsync)
-    {
-        wglSwapIntervalEXT(VSYNC_ON); //[AB] - 2022: Using GLEXT extensions for vertical synchronisation capability.
-    }
-    else {
-        wglSwapIntervalEXT(VSYNC_OFF);
-    }
+    wglSwapIntervalEXT(VSYNC_ON); //[AB] - 2022: Using GLEXT extensions for vertical synchronisation capability.
     glClearColor( 0.0f, 0.0f, 0.0f, 1.0f );
     glDisable( GL_DEPTH_TEST );
 
