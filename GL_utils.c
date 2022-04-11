@@ -386,7 +386,7 @@ int GL_LoadSkyTexture(int TexNumb, int *SkyTex)
     TexWide = TexList[TexNumb].GLWide;
     TexHigh = TexList[TexNumb].GLHigh;
 
-    parts = TexWide / 512;
+    parts = TexWide / 256;
 
     memset(SkyRaw, 0, TexWide*TexHigh);
 
@@ -401,14 +401,14 @@ int GL_LoadSkyTexture(int TexNumb, int *SkyTex)
                                textures[TexList[TexNumb].Number]->patches[n].patch);
        }
 
-    TexWide = 512;
+    TexWide = 256;
     for (part = 0; part < parts; part++)
        {
-        s = part * 512;
+        s = part * 256;
         d = 0;
-        glw = 512;
+        glw = 256;
         w = TexList[TexNumb].DWide;
-        memset(TexRaw, 0, 512 *w);
+        memset(TexRaw, 0, 256*w);
         for (r = 0; r < TexHigh; r++)
            {
             memcpy(&TexRaw[d], &SkyRaw[s], glw);
