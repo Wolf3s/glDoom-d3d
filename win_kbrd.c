@@ -24,10 +24,7 @@
 LPDIRECTINPUT        lpDirectInput = 0;
 LPDIRECTINPUTDEVICE  lpKeyboard    = 0;
 
-#define KS_KEYUP        0
-#define KS_KEYDOWN    255
-
-unsigned char        diKeyState[256];
+unsigned char        KeyState[256];
 short                si_Kbd[256];
 
 extern int           keylink;
@@ -53,34 +50,34 @@ dboolean I_SetupKeyboard()
     HRESULT hresult;
 
     hresult = DirectInput8Create(WinData.hInstance, DIRECTINPUT_VERSION, &IID_IDirectInput8, &lpDirectInput, NULL );
-    if (hresult != DI_OK)
+    if (hresult != S_OK)
        {
         DI_Error( hresult, "DirectInputCreate");
         return false;
        }
     hresult = lpDirectInput->lpVtbl->CreateDevice(lpDirectInput, &GUID_SysKeyboard, &lpKeyboard, NULL );
-    if (hresult != DI_OK)
+    if (hresult != S_OK)
        {
         DI_Error( hresult, "CreateDevice (keyboard)");
         I_ReleaseKeyboard();
         return false;
        }
     hresult = lpKeyboard->lpVtbl->SetDataFormat(lpKeyboard, &c_dfDIKeyboard);
-    if (hresult != DI_OK)
+    if (hresult != S_OK)
        {
         DI_Error( hresult, "SetDataFormat (keyboard)");
         I_ReleaseKeyboard();
         return false;
        }
     hresult = lpKeyboard->lpVtbl->SetCooperativeLevel(lpKeyboard, WinData.hWnd, DISCL_NONEXCLUSIVE | DISCL_FOREGROUND);
-    if (hresult != DI_OK)
+    if (hresult != S_OK)
        {
         DI_Error( hresult, "SetCooperativeLevel (keyboard)");
         I_ReleaseKeyboard();
         return false;
        }
     hresult = lpKeyboard->lpVtbl->Acquire(lpKeyboard);
-    if (hresult != DI_OK)
+    if (hresult != S_OK)
        {
         DI_Error( hresult, "Acquire (keyboard)");
         I_ReleaseKeyboard();
@@ -89,7 +86,7 @@ dboolean I_SetupKeyboard()
 
     // Set the keyboard buffer to "all keys up"
     for (k = 0; k < 256; k++)
-        si_Kbd[k] = KS_KEYUP;
+        si_Kbd[k] = WM_KEYUP;
 
     return true;
    }
@@ -110,15 +107,15 @@ void I_CheckKeyboard()
 
     RetryKeyboard:;
 
-    hresult = lpKeyboard->lpVtbl->GetDeviceState(lpKeyboard, sizeof(diKeyState), &diKeyState);
-    if ((hresult == DIERR_INPUTLOST) || (hresult == DIERR_NOTACQUIRED))
+    hresult = lpKeyboard->lpVtbl->GetDeviceState(lpKeyboard, sizeof(KeyState), &KeyState);
+    if ((hresult == MAKE_HRESULT(SEVERITY_ERROR, FACILITY_WIN32, ERROR_READ_FAULT)) || (hresult == MAKE_HRESULT(SEVERITY_ERROR, FACILITY_WIN32, ERROR_INVALID_ACCESS)))
        {
         hresult = lpKeyboard->lpVtbl->Acquire(lpKeyboard);
         if (SUCCEEDED(hresult))
             goto RetryKeyboard;
        }
     else
-    if (hresult != DI_OK)
+    if (hresult != S_OK)
        {
         DI_Error(hresult, "GetDeviceState (keyboard)");
         sprintf(t_text, "hresult = %08X\n", hresult);
@@ -128,33 +125,24 @@ void I_CheckKeyboard()
        {
         for (i = 1; i < 256; i++)
            {
-/*
-            if (keylink == false || (i != DIK_LMENU && i != DIK_RMENU &&
-                                    i != DIK_LSHIFT && i != DIK_RSHIFT &&
-                                    i != DIK_LCONTROL && i != DIK_RCONTROL))
-               {
-*/
-                if (((diKeyState[i] & 0x80) == 0) && (si_Kbd[i] == KS_KEYDOWN))
+                if (((KeyState[i] & 0x80) == 0) && (si_Kbd[i] == WM_KEYDOWN))
                    {
                     event[i].type = ev_keyup;
                     event[i].data1 = i;
                     D_PostEvent(&event[i]);
-                    si_Kbd[i] = KS_KEYUP;
+                    si_Kbd[i] = WM_KEYUP;
                    }
 
-                if ((diKeyState[i] & 0x80) && (si_Kbd[i] == KS_KEYUP))
+                if ((KeyState[i] & 0x80) && (si_Kbd[i] == WM_KEYUP))
                    {
-                    if ((i != DIK_TAB) || ((diKeyState[DIK_LMENU] == KS_KEYUP) && (diKeyState[DIK_RMENU] == KS_KEYUP)))
+                    if ((i != WS_TABSTOP) || ((KeyState[VK_LMENU] == WM_KEYUP) && (KeyState[VK_RMENU] == WM_KEYUP)))
                        {
                         event[i].type = ev_keydown;
                         event[i].data1 = i;
                         D_PostEvent(&event[i]);
-                        si_Kbd[i] = KS_KEYDOWN;
+                        si_Kbd[i] = WM_KEYDOWN;
                        }
                    }
-/*
-               }
-*/
            }
        }
    }

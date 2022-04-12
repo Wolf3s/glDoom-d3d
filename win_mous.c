@@ -34,14 +34,14 @@ dboolean I_SetupMouse()
     HRESULT          hresult;
     
     hresult = lpDirectInput->lpVtbl->CreateDevice(lpDirectInput, &GUID_SysMouse, &lpMouse, NULL );
-    if (hresult != DI_OK)
+    if (hresult != S_OK)
        {
         DI_Error( hresult, "CreateDevice (mouse)");
         return false;
        }
 
     hresult = lpMouse->lpVtbl->SetDataFormat(lpMouse, &c_dfDIMouse);
-    if (hresult != DI_OK)
+    if (hresult != S_OK)
        {
         DI_Error( hresult, "SetDataFormat (mouse)");
         I_ReleaseMouse();
@@ -49,7 +49,7 @@ dboolean I_SetupMouse()
        }
 
     hresult = lpMouse->lpVtbl->SetCooperativeLevel(lpMouse, WinData.hWnd, DISCL_NONEXCLUSIVE | DISCL_FOREGROUND);
-    if (hresult != DI_OK)
+    if (hresult != S_OK)
        {
         DI_Error( hresult, "SetCooperativeLevel (mouse)");
         I_ReleaseMouse();
@@ -57,7 +57,7 @@ dboolean I_SetupMouse()
        }
 
     hresult = lpMouse->lpVtbl->Acquire(lpMouse);
-    if (hresult != DI_OK)
+    if (hresult != S_OK)
        {
         DI_Error( hresult, "Acquire (mouse)");
         I_ReleaseMouse();
@@ -78,14 +78,14 @@ void I_CheckMouse()
         RetryMouse:;
 
         hresult = lpMouse->lpVtbl->GetDeviceState(lpMouse, sizeof(DIMOUSESTATE), &diMouseState);
-        if ((hresult == DIERR_INPUTLOST) || (hresult == DIERR_NOTACQUIRED))
+        if ((hresult == MAKE_HRESULT(SEVERITY_ERROR, FACILITY_WIN32, ERROR_READ_FAULT)) || (hresult == MAKE_HRESULT(SEVERITY_ERROR, FACILITY_WIN32, ERROR_INVALID_ACCESS)))
            {
             hresult = lpMouse->lpVtbl->Acquire(lpMouse);
             if (SUCCEEDED(hresult))
                 goto RetryMouse;
            }
         else
-        if (hresult != DI_OK)
+        if (hresult != S_OK)
            {
             DI_Error(hresult, "GetDeviceState(mouse)");
            }
