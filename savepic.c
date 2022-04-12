@@ -82,15 +82,15 @@ void SavePic(int x, int y, unsigned char *texels, char *filename)
     vo = ho = 0;
 
     // open the file to save the "lump" in
-    fn = open(filename, O_RDWR | O_CREAT | O_TRUNC | O_BINARY, 0666);
-    write(fn, &w, sizeof(short));
-    write(fn, &h, sizeof(short));
-    write(fn, &vo, sizeof(short));
-    write(fn, &ho, sizeof(short));
-    write(fn, columns, sizeof(int)*x);
-    write(fn, image, ((p-image)+1));
+    fn = _open(filename, O_RDWR | O_CREAT | O_TRUNC | O_BINARY, 0666);
+    _write(fn, &w, sizeof(short));
+    _write(fn, &h, sizeof(short));
+    _write(fn, &vo, sizeof(short));
+    _write(fn, &ho, sizeof(short));
+    _write(fn, columns, sizeof(int)*x);
+    _write(fn, image, ((p-image)+1));
     // close the output file
-    close(fn);
+    _close(fn);
 
     // free the output image
     free(image);

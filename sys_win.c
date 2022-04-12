@@ -128,7 +128,6 @@ void  InitData(HINSTANCE, int);
 void  ParseCommand(PSTR);
 void  EvaluateParameters(PSTR);
 BOOL  CreateMainWindow( int, int, int, BOOL);
-void  GetWindowsVersion(void);
 
 void ClearLog(char *szFileName);
 void lfprintf(char *message, ... );
@@ -420,8 +419,6 @@ void Cleanup()
 BOOL CreateTempWindow()
 {
     WNDCLASSEX  wndclass;
-    DWORD       dwStyle, dwExStyle;
-    int         x, y, sx, sy, ex, ey;
 
     wndclass.cbSize        = sizeof (wndclass);
     wndclass.style         = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
@@ -593,9 +590,6 @@ void InitData(HINSTANCE hInstance, int iCmdShow)
 	int   iWidth, iHeight;
 	float fRatio = 0.0f;
 
-    // Get the current Windows version information
-    GetWindowsVersion();
-
     // Set the "Doom" screen variables to default
     SCREENWIDTH = 320;
     SCREENHEIGHT = 200;
@@ -653,7 +647,7 @@ void InitData(HINSTANCE hInstance, int iCmdShow)
 // could just do myargc = __argc and myargv = __argv
 void ParseCommand(PSTR szCmdLine)
    {
-    char *s, *argzero;
+    char* s;
 
     M_InitParms();
     
@@ -950,34 +944,3 @@ void dprintf(char *message, ... )
     vfprintf (dbg_file,message,argptr);
     va_end (argptr);
    }
-
-void GetWindowsVersion()
-   {
-    OSVERSIONINFO OSVersionInfo;
-
-    OSVersionInfo.dwOSVersionInfoSize = sizeof(OSVersionInfo);
-    GetVersionEx(&OSVersionInfo);
-
-    switch(OSVersionInfo.dwPlatformId)
-        {
-         case VER_PLATFORM_WIN32s:
-              con_printf("Platform is Windows %d.%02d\n", OSVersionInfo.dwMajorVersion,
-                                                          OSVersionInfo.dwMinorVersion);
-              break;
-         case VER_PLATFORM_WIN32_WINDOWS:
-              con_printf("Platform is Windows 9X ");
-              con_printf("Version %d.%02d.%d\n", OSVersionInfo.dwMajorVersion,
-                                                 OSVersionInfo.dwMinorVersion,
-                                                 OSVersionInfo.dwBuildNumber & 0xFFFF);
-              break;
-         case VER_PLATFORM_WIN32_NT:
-              con_printf("Platform is Windows NT ");
-              con_printf("Version %d.%02d ", OSVersionInfo.dwMajorVersion, OSVersionInfo.dwMinorVersion);
-              con_printf("Build %d\n", OSVersionInfo.dwBuildNumber & 0xFFFF);
-              break;
-        }
-    if (strlen(OSVersionInfo.szCSDVersion) > 0)
-       con_printf("Windows Info: %s\n", OSVersionInfo.szCSDVersion);
-   }
-
-

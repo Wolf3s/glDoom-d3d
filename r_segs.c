@@ -379,7 +379,6 @@ void R_StoreWallRange( int	start, int	stop )
     angle_t		distangle, offsetangle;
     fixed_t		vtop;
     int			lightnum;
-    int         sector;
 
     // don't overflow and crash
     if (ds_p == &drawsegs[MAXDRAWSEGS])

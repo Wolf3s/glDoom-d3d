@@ -2,6 +2,7 @@
 // This module handles the video interface to Windows
 
 #include <windows.h>
+#include <VersionHelpers.h>
 #include <stdio.h>
 #include "v_video.h"
 #include "win_video.h"
@@ -77,62 +78,18 @@ void GetModeList(char *dbgname)
        }
    }
 
-/*
-BOOL SetVideoMode(int iMode)
-   {
-    pModeList[iMode].dmFields = (DM_BITSPERPEL | DM_PELSWIDTH | DM_PELSHEIGHT);
-
-    //if (ChangeDisplaySettings(&pModeList[iMode], CDS_FULLSCREEN) == DISP_CHANGE_SUCCESSFUL)
-    if (ChangeDisplaySettings(&pModeList[iMode], 0) == DISP_CHANGE_SUCCESSFUL)
-       return(TRUE);
-    else
-       return(FALSE);
-   }
-*/
-
 BOOL SetVideoMode()
    {
-    OSVERSIONINFO   vinfo;
     int             mode;
     DEVMODE         dm;
 
-    vinfo.dwOSVersionInfoSize = sizeof(vinfo);
-
     WinData.bChangeBPP = FALSE;
 
-    if ( GetVersionEx( &vinfo) )
-       {
-        if ( vinfo.dwMajorVersion > 4 )
-           {
-            WinData.bChangeBPP = TRUE;
-           }
-        else
-        if ( vinfo.dwMajorVersion == 4 )
-           {
-            if ( vinfo.dwPlatformId == VER_PLATFORM_WIN32_NT )
-               {
-                WinData.bChangeBPP = TRUE;
-               }
-            else
-            if ( vinfo.dwPlatformId == VER_PLATFORM_WIN32_WINDOWS )
-               {
-                if ( LOWORD( vinfo.dwBuildNumber ) >= OSR2_BUILD_NUMBER )
-                   {
-                    WinData.bChangeBPP = TRUE;
-                   }
-               }
-            else
-               {
-                lfprintf("Unknown version of Windows: %d\n", vinfo.dwPlatformId);
-                WinData.bChangeBPP = TRUE; // ???
-               }
-           }
-       }
-    else
-       {
-        lfprintf("SetVideoMode - GetVersionEx failed\n");
+    if (!IsWindows8OrGreater())
+    {
+        MessageBox(NULL, "You need at least Windows 8 to use this software", "Version Not Supported", MB_OK);
         return FALSE;
-       }
+    }
 
     if (video.fullscreen)
        {

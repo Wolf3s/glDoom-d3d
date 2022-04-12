@@ -261,7 +261,7 @@ void V_DrawPatchBuff ( int x, int y, unsigned char *buff, patch_t* patch )
     byte            *dest;
     byte            *source; 
     byte            *txp, *draw;
-    int		         w, o;
+    int		         w;
 	 
     //y -= SHORT(patch->topoffset);
     //x -= SHORT(patch->leftoffset);

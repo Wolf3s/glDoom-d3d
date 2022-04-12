@@ -1251,7 +1251,6 @@ extern ml_vec3_t *Normal;
 /////////////////////////////////////////////////////////////////////
 void MConcat(double in1[3][3], double in2[3][3], double out[3][3])
    {
-    int     i, j;
 
     out[0][0] = in1[0][0] * in2[0][0] + in1[0][1] * in2[1][0] + in1[0][2] * in2[2][0];
     out[0][1] = in1[0][0] * in2[0][1] + in1[0][1] * in2[1][1] + in1[0][2] * in2[2][1];
@@ -1271,7 +1270,6 @@ void MConcat(double in1[3][3], double in2[3][3], double out[3][3])
 /////////////////////////////////////////////////////////////////////
 void UpdateViewAngles(ml_vec3_t angles)
    {
-    int       i;
     ml_vec3_t mtemp1[3], mtemp2[3], mroll[3], mpitch[3], myaw[3];
     double    s, c, roll, pitch, yaw;
    
@@ -1476,7 +1474,7 @@ void R_InitViewData()
 /////////////////////////////////////////////////////////////////////
 void R_AlignFrustum(ml_vert3_t position, ml_vec3_t orient)
    {
-    double    angle, s, c;
+    double    angle;
     ml_vec3_t normal;
 
     UpdateViewAngles(orient);
@@ -1693,20 +1691,18 @@ void R_BuildRenderQueue()
 
 void GL_RenderPlayerView(player_t* player)
    {
-    int           i, j, iview, texnumb, sector, subsector, lin, wall, flat;
-    float         wallhigh, newhigh;
+    int           i, texnumb, sector, subsector, wall, flat;
     double        fview;
     float         yangle, lightv;
-    float         fh, ch, flathigh, radius = 128;
+    float         flathigh, radius = 128;
     float         fogcolor[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
     double        offsetf, offsetu;
     //DW_Vertex3D   PlayerPosition;
     static ml_vert3_t    ViewPosition;
     static ml_vec3_t     ViewOrient;
-    DW_Polygon   *TempPoly, LightMap;
+    DW_Polygon   *TempPoly;
     static dboolean   FirstTime = true;
     DW_Vertex3D   LightPos;
-    mobj_t* pobj;
 
     DW_FloorCeil*   psubsector;
     sector_t*       psector;

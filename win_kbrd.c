@@ -100,7 +100,7 @@ void I_CheckKeyboard()
    {
     HRESULT          hresult;
     static  event_t  event[256];
-    unsigned short   lm, rm, mk;
+    unsigned short   lm;
     int     i;
 
     if (lpKeyboard == 0)

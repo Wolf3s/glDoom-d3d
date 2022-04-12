@@ -1224,15 +1224,15 @@ void M_ReadSaveStrings(void)
 	else
 	    sprintf(name,SAVEGAMENAME"%d.dsg",i);
 
-	handle = open (name, O_RDONLY | 0, 0666);
+	handle = _open (name, O_RDONLY | 0, 0666);
 	if (handle == -1)
 	{
 	    strcpy(&savegamestrings[i][0],EMPTYSTRING);
 	    LoadGameMenu[i].status = 0;
 	    continue;
 	}
-	count = read (handle, &savegamestrings[i], SAVESTRINGSIZE);
-	close (handle);
+	count = _read (handle, &savegamestrings[i], SAVESTRINGSIZE);
+	_close (handle);
 	LoadGameMenu[i].status = 1;
     }
 }

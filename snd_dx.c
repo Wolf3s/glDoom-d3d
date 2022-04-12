@@ -422,10 +422,6 @@ int addsfx( int sfxid, int volume, int step, int seperation, void *origin )
     
     int		oldest = gametic;
     int		oldestnum = 0;
-    int		slot;
-
-    int		rightvol;
-    int		leftvol;
 
     int     iVolume, iPan;
     DWORD   dwDSBStatus;
@@ -873,7 +869,7 @@ void
 I_SubmitSound(void)
 {
   // Write it to DSP device.
-  write(audio_fd, mixbuffer, SAMPLECOUNT*BUFMUL);
+  _write(audio_fd, mixbuffer, SAMPLECOUNT*BUFMUL);
 }
 
 
@@ -1023,7 +1019,7 @@ void I_StopSong(int handle)
 
 void I_UnRegisterSong(int handle)
   {
-   unlink("DOOMSONG.MID");
+   _unlink("DOOMSONG.MID");
    musicdata = 0;
   }
 
@@ -1083,7 +1079,7 @@ void I_HandleSoundTimer( int ignore )
   {
     // See I_SubmitSound().
     // Write it to DSP device.
-    write(audio_fd, mixbuffer, SAMPLECOUNT*BUFMUL);
+    _write(audio_fd, mixbuffer, SAMPLECOUNT*BUFMUL);
 
     // Reset flag counter.
     flag = 0;

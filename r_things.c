@@ -1425,7 +1425,6 @@ extern double   pfactor;
 void GL_DrawThings(void)
    {
     vissprite_t*	spr;
-    drawseg_t*		ds;
     int             lump;
     float           sx, sy, sz, Orient, x1, x2, tLight;
     float           fLight, fTop, fBottom, fOffset;

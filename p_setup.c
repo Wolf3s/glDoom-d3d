@@ -1284,7 +1284,7 @@ int TextureSearchSector(int sector, int top)
 
 void CreateNewWalls()
    {
-    int         line, side, PolyCount, i;
+    int         line, PolyCount, i;
     int         Sector1, Sector2, texture;
     float       Ceil1, Ceil2, Floor1, Floor2, MiddleTop, MiddleBottom;
     DW_Polygon *TempPoly;

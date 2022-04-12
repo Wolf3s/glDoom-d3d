@@ -36,8 +36,7 @@ dboolean MidiPlay(HWND hWnd, MIDI_Data_t *mdd)
     if (MCI_Error)
        {
         mciGetErrorString(MCI_Error, MidiMsg, MCIMSGLEN);
-        //MessageBox(hWnd, MidiMsg, NULL, MB_ICONSTOP | MB_OK);
-        lfprintf("Unable to play MIDI music: %s\n", mdd->szMidiFile);
+        MessageBox(hWnd, MidiMsg, NULL, MB_ICONSTOP | MB_OK);
         strcat(MidiMsg, "\n");
         lfprintf(MidiMsg);
         mdd->MidiStatus = midi_nofile;
@@ -310,11 +309,11 @@ int WriteMIDheader( int file, unsigned short ntrks, unsigned short division )
    {
     unsigned short  tvalue;
 
-    write( file, MIDIMAGIC , 10 );
+    _write( file, MIDIMAGIC , 10 );
     tvalue = SHORT(ntrks);
-    write( file, &tvalue, 2);
+    _write( file, &tvalue, 2);
     tvalue = SHORT(division);
-    write( file, &tvalue, 2 );
+    _write( file, &tvalue, 2 );
 
     return 0;
    }
@@ -346,23 +345,23 @@ void WriteTrack( int tracknum, int file, struct Track track[] )
        {
         lfprintf("ERROR: track size overflow...\n");
        }
-    write( file, "MTrk", 4 );
+    _write( file, "MTrk", 4 );
     if ( !tracknum )
        {
         size += 33;
        }
 
     tsize = LONG(size);
-    write(file, &tsize, 4);
+    _write(file, &tsize, 4);
     if ( !tracknum)
        {
-        write( file, TRACKMAGIC1 "Quick MUS->MID ! by S.Bacquet", 33 );
+        _write( file, TRACKMAGIC1 "Quick MUS->MID ! by S.Bacquet", 33 );
        }
     quot = (size_t) (track[tracknum].current / 4096);
     rem = (size_t) (track[tracknum].current - quot*4096);
-    write( file, track[tracknum].data, (4096*quot) );
-    write( file, ((const unsigned char *)(track[tracknum].data)+4096*quot), rem );
-    write( file, TRACKMAGIC2, 4 );
+    _write( file, track[tracknum].data, (4096*quot) );
+    _write( file, ((const unsigned char *)(track[tracknum].data)+4096*quot), rem );
+    _write( file, TRACKMAGIC2, 4 );
    }
 
 
@@ -370,14 +369,14 @@ void WriteFirstTrack( int file )
    {
     unsigned int           size;
 
-    write( file, "MTrk", 4 );
+    _write( file, "MTrk", 4 );
     size = LONG(43);
-    write( file, &size, 4 );
-    write( file, TRACKMAGIC3 , 4 );
-    write( file, "QMUS2MID (C) S.Bacquet", 22 );
-    write( file, TRACKMAGIC4, 6 );
-    write( file, TRACKMAGIC5, 7 );
-    write( file, TRACKMAGIC6, 4 );
+    _write( file, &size, 4 );
+    _write( file, TRACKMAGIC3 , 4 );
+    _write( file, "QMUS2MID (C) S.Bacquet", 22 );
+    _write( file, TRACKMAGIC4, 6 );
+    _write( file, TRACKMAGIC5, 7 );
+    _write( file, TRACKMAGIC6, 4 );
    }
 
 int ReadTime()
@@ -445,7 +444,7 @@ int qmus2mid( const char *mid, int nodisplay, unsigned short division, int Buffe
     signed char MUS2MIDchannel[16];
     char ouch = 0, sec;
 
-    if ( (file_mid = open( mid, O_CREAT | O_RDWR | O_BINARY | O_TRUNC, 0666 )) == -1 )
+    if ( (file_mid = _open( mid, O_CREAT | O_RDWR | O_BINARY | O_TRUNC, 0666 )) == -1 )
        {
         return CWMIDFILE;
        }
@@ -738,7 +737,7 @@ int qmus2mid( const char *mid, int nodisplay, unsigned short division, int Buffe
        }
     if ( !nodisplay && !nocomp )
        {
-        lfprintf( "Compression: %u%%.\n",(100 * n) / (n+ (unsigned int) tell( file_mid )) );
+        lfprintf( "Compression: %u%%.\n",(100 * n) / (n+ (unsigned int) _tell( file_mid )) );
        }
 
     FreeTracks( track );
@@ -805,10 +804,10 @@ int MidiConvert( const char *mid, int nodisplay, int div, int size, int nocomp, 
     if ( !nodisplay )
        {
         lfprintf( "%s converted successfully.\n", musname );
-        if ( (file = open( mid, O_RDWR | O_BINARY )) != -1 )
+        if ( (file = _open( mid, O_RDWR | O_BINARY )) != -1 )
            {
-            sprintf( buffer, ": %ld bytes", (unsigned int) filelength(file) );
-            close( file );
+            sprintf( buffer, ": %ld bytes", (unsigned int) _filelength(file) );
+            _close( file );
            }
         lfprintf( "%s (%scompressed) written%s.\n", mid, nocomp ? "NOT ": "",file ? buffer: ""  );
        }
