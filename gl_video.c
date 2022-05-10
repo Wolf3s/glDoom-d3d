@@ -24,7 +24,7 @@
 #include <windows.h>
 #include <gl/gl.h>
 #include <gl/glu.h>
-#include <gl/wglext.h>
+#include <wglext.h>
 
 #include <stdlib.h>
 #include <math.h>
