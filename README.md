@@ -21,6 +21,9 @@ I am planning for this port, the following (in order or priority)
 4. Allowing the user to select the resolution and fullscreen/window within glDoom's menu
 5. Increasing the vanilla limits and adding support for No Rest For The Living and SIGIL
 
+### Note - 16.05.2022
+Current I am adding SDL2 Mixer support to stream audio (ported from various SDL2-based source ports).
+
 Plus more!
 
 ### Why
