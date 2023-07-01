@@ -189,7 +189,7 @@
     </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>INITGUID;NDEBUG;WIN32;_WINDOWS;_CRT_SECURE_NO_WARNINGS;RENDER_D3D%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>INITGUID;NDEBUG;WIN32;_WINDOWS;_CRT_SECURE_NO_WARNINGS;RENDER_D3D;RENDER_GL%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
       <FloatingPointModel>Fast</FloatingPointModel>
@@ -216,7 +216,7 @@
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <DataExecutionPrevention />
       <TargetMachine>MachineX86</TargetMachine>
-      <AdditionalLibraryDirectories>$(ProjectDir)Libs/x86%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)Libs\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <Bscmake>
       <SuppressStartupBanner>true</SuppressStartupBanner>
