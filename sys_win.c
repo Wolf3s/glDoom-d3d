@@ -763,8 +763,6 @@ extern dboolean paused;
 
 LRESULT CALLBACK WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
    {
-    static HDC           hDC;
-    static PAINTSTRUCT   ps;
     static event_t       event;
     static unsigned char KeyPress;
     static int           scancode;
@@ -776,7 +774,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
        {
         case WM_CREATE:
              tvalue = 1;
-             con_setup(hwnd, WinData.hInstance, video.width, video.height);
+             con_setup(hwnd, video.width, video.height);
              //GetCDInfo(hwnd);
              break;
 
